@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Wiki\Documents\GitHub\discord.nvim\build\CMakeFiles\3f6598f84296f02e8cbdd9bfb8721e98\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{65A40179-52AB-3275-86D2-1E71F4B52163}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

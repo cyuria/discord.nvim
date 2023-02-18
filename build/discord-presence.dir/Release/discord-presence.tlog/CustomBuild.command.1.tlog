@@ -1,0 +1,10 @@
+^C:\USERS\WIKI\DOCUMENTS\GITHUB\DISCORD.NVIM\CMAKELISTS.TXT
+setlocal
+C:\Users\Wiki\localprogramfiles\cmake\bin\cmake.exe -SC:/Users/Wiki/Documents/GitHub/discord.nvim -BC:/Users/Wiki/Documents/GitHub/discord.nvim/build --check-stamp-file C:/Users/Wiki/Documents/GitHub/discord.nvim/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

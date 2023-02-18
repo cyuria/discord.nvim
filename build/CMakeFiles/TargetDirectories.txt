@@ -1,0 +1,4 @@
+C:/Users/Wiki/Documents/GitHub/discord.nvim/build/CMakeFiles/discord-presence.dir
+C:/Users/Wiki/Documents/GitHub/discord.nvim/build/CMakeFiles/INSTALL.dir
+C:/Users/Wiki/Documents/GitHub/discord.nvim/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Wiki/Documents/GitHub/discord.nvim/build/CMakeFiles/ZERO_CHECK.dir

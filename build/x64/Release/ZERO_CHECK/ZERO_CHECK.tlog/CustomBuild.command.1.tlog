@@ -1,0 +1,10 @@
+^C:\USERS\WIKI\DOCUMENTS\GITHUB\DISCORD.NVIM\BUILD\CMAKEFILES\3F6598F84296F02E8CBDD9BFB8721E98\GENERATE.STAMP.RULE
+setlocal
+C:\Users\Wiki\localprogramfiles\cmake\bin\cmake.exe -SC:/Users/Wiki/Documents/GitHub/discord.nvim -BC:/Users/Wiki/Documents/GitHub/discord.nvim/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/Wiki/Documents/GitHub/discord.nvim/build/discord-presence.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
