@@ -3,9 +3,10 @@ SDK_SRC_FILES := $(wildcard $(SDK_DIR)/*.cpp)
 SRC_DIR := ./src/
 SRC_FILES := $(wildcard $(SRC_DIR)/*.cpp)
 
+LINKER_ARGS := -Ldiscord-sdk-lib/discord_game_sdk.dll.lib
 
 discordnvim: $(SRC_FILES) $(SDK_SRC_FILES)
 	echo $(SRC_FILES)
 	echo $(SDK_SRC_FILES)
-	g++ $(SRC_FIELS) $(SDK_SRC_FILES) -o $@
+	g++ $(SRC_FIELS) $(SDK_SRC_FILES) $(LINKER_ARGS) -o $@
 
