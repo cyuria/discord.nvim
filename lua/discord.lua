@@ -12,16 +12,16 @@ local native = ffi.load(library_path)
 -- Declare types for my functions
 ffi.cdef [[
     void discordInit();
-    static void discordShutDown();
-    static void discordSetFolder(const char*, const char*);
-    static void discordSetFile(const char*);
-    static void discordSetFileNums(const unsigned int, const unsigned int);
+    void discordShutDown();
+    void discordSetFolder(const char*, const char*);
+    void discordSetFile(const char*);
+    void discordFileNums(const unsigned int, const unsigned int);
 ]]
 
 local DEFAULT_OPTS = {
     usercmd = true,
-    autocmd = false,
-    initialise = true,
+    autocmd = true,
+    initonenter = true,
     -- Do not turn last option off or there is a good chance the plugin will break.
     -- Restarting **should** fix any problems though
     quitonleave = true,
@@ -37,27 +37,27 @@ discordPresence.stop = function()
     native.discordShutDown()
 end
 
-discordPresence.setFolder = function(foldername, newfilename)
-    native.discordSetFolder(foldername, newfilename)
+discordPresence.setFolder = function(folder, filename)
+    native.discordSetFolder(folder, filename)
 end
 
 discordPresence.setFile = function(filename)
     native.discordSetFile(filename)
 end
 
-discordPresence.setFileNums = function(currfile, totalfiles)
-    native.discordSetFileNums(currfile, totalfiles)
+discordPresence.setFileNums = function(currfile, allfiles)
+    native.discordFileNums(currfile, allfiles)
 end
 
 discordPresence.setup = function(opts)
     opts = opts or DEFAULT_OPTS
     local discordaugroup = vim.api.nvim_create_augroup("discord", {})
     if opts.usercmd then
-        vim.api.nvim_create_user_command('DiscordInit', discordPresence.init, {})
-        vim.api.nvim_create_user_command('DiscordStop', discordPresence.stop, {})
-        vim.api.nvim_create_user_command('DiscordChwd', discordPresence.setFolder, { nargs = '*' })
-        vim.api.nvim_create_user_command('DiscordFile', discordPresence.setFile, { nargs = 1 })
-        vim.api.nvim_create_user_command('DiscordFNum', discordPresence.setFileNums, { nargs = '*' })
+        vim.api.nvim_create_user_command('DiscordInit', function(args) discordPresence.init() end, {})
+        vim.api.nvim_create_user_command('DiscordStop', function(args) discordPresence.stop() end, {})
+        vim.api.nvim_create_user_command('DiscordChwd', function(args) discordPresence.setFolder(args.fargs[1], args.fargs[2]) end, { nargs = '*' })
+        vim.api.nvim_create_user_command('DiscordFile', function(args) discordPresence.setFile(args.fargs[1]) end, { nargs = 1 })
+        vim.api.nvim_create_user_command('DiscordFNum', function(args) discordPresence.setFileNums(args.fargs[1], args.fargs[2]) end, { nargs = '*' })
     end
     if opts.autocmd then
         vim.api.nvim_create_autocmd({ "BufEnter" }, {
@@ -66,7 +66,9 @@ discordPresence.setup = function(opts)
                 discordPresence.setFile(vim.fn.fnamemodify(args.file, ':t'))
                 local nrbufs = 0
                 for i = 0, vim.fn.tabpagenr('$') do
-                    nrbufs = nrbufs + #vim.fn.tabpagebuflist(i+1)
+                    local bufs = vim.fn.tabpagebuflist(i+1)
+                    if type(bufs) == "number" then return end
+                    nrbufs = nrbufs + #bufs
                 end
                 discordPresence.setFileNums(args.buf, nrbufs)
             end
@@ -74,7 +76,7 @@ discordPresence.setup = function(opts)
         vim.api.nvim_create_autocmd({ "DirChanged" }, {
             group = discordaugroup,
             callback = function(args)
-                local dirname = vim.fn.fnamemodify(nvim.fn.getcwd(), ':t')
+                local dirname = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
                 local filename = vim.fn.fnamemodify(args.file, ':t')
                 discordPresence.setFolder(dirname, filename)
             end
