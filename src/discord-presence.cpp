@@ -137,23 +137,23 @@ static PresenceApp app;
 
 extern "C" {
   
-  static auto discordInit() {
+  static void discordInit() {
     return app.discordInit();
   }
 
-  static auto discordShutDown() {
+  static void discordShutDown() {
     return app.discordShutDown();
   }
   
-  static auto discordSetFolder(const char* pname, const char* fname) {
+  static void discordSetFolder(const char* pname, const char* fname) {
     return app.setProject(pname, fname);
   }
   
-  static auto discordFileNums(const unsigned int currfile, const unsigned int allfiles) {
+  static void discordFileNums(const unsigned int currfile, const unsigned int allfiles) {
     return app.updateFileNums(currfile, allfiles);
   }
   
-  static auto discordSetFile(const char* fname) {
+  static void discordSetFile(const char* fname) {
     return app.setFileName(fname);
   }
   

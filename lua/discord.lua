@@ -11,11 +11,11 @@ local native = ffi.load(library_path)
 
 -- Declare types for my functions
 ffi.cdef [[
-    void discordInit();
-    void discordShutDown();
-    void discordSetFolder(const char*, const char*);
-    void discordSetFile(const char*);
-    void discordSetFileNums(const unsigned int, const unsigned int);
+    static void discordInit();
+    static void discordShutDown();
+    static void discordSetFolder(const char*, const char*);
+    static void discordSetFile(const char*);
+    static void discordSetFileNums(const unsigned int, const unsigned int);
 ]]
 
 local DEFAULT_OPTS = {
