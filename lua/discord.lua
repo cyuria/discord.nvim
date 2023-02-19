@@ -95,7 +95,7 @@ discordPresence.setFile = function(filename)
 end
 
 discordPresence.setFileNums = function(currfile, allfiles)
-    native.discordFileNums(currfile, allfiles)
+    native.discordFileNums(tonumber(currfile), tonumber(allfiles))
 end
 
 discordPresence.setup = function(opts)
@@ -107,7 +107,7 @@ discordPresence.setup = function(opts)
         vim.api.nvim_create_user_command('DiscordStop', function(args) discordPresence.stop() end, {})
         vim.api.nvim_create_user_command('DiscordChwd', function(args) discordPresence.setFolder(args.fargs[1], args.fargs[2]) end, { nargs = '*' })
         vim.api.nvim_create_user_command('DiscordFile', function(args) discordPresence.setFile(args.fargs[1]) end, { nargs = 1 })
-        vim.api.nvim_create_user_command('DiscordFNum', function(args) discordPresence.setFileNums(tonumber(args.fargs[1]), tonumber(args.fargs[2])) end, { nargs = '*' })
+        vim.api.nvim_create_user_command('DiscordFNum', function(args) discordPresence.setFileNums(args.fargs[1], args.fargs[2]) end, { nargs = '*' })
     end
     if opts.autocmd then
         vim.api.nvim_create_autocmd({ "BufEnter" }, {
