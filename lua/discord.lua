@@ -2,9 +2,9 @@ local ffi = require'ffi'
 local library_path = (function()
   local dirname = string.sub(debug.getinfo(1).source, 2, #"/discord.lua" * -1)
   if package.config:sub(1, 1) == "\\" then
-    return dirname .. "../build/libdiscord-presence.dll"
+    return dirname .. "/build/libdiscord-presence.dll"
   else
-    return dirname .. "../build/libdiscord-presence.so"
+    return dirname .. "/build/libdiscord-presence.so"
   end
 end)()
 local native = ffi.load(library_path)
