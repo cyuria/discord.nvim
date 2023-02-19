@@ -176,6 +176,9 @@ discord-presence_BINARY_DIR:STATIC=C:/Users/Wiki/Documents/GitHub/discord.nvim/b
 //Value Computed by CMake
 discord-presence_IS_TOP_LEVEL:STATIC=ON
 
+//Dependencies for the target
+discord-presence_LIB_DEPENDS:STATIC=general;discord_rpc;
+
 //Value Computed by CMake
 discord-presence_SOURCE_DIR:STATIC=C:/Users/Wiki/Documents/GitHub/discord.nvim
 
