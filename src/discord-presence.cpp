@@ -53,8 +53,8 @@ public:
     discordPresence.startTimestamp = StartTime;
     discordPresence.largeImageKey = "neovim";
     discordPresence.largeImageText = "The One True Text Editor";
-    const auto search = langmap.find(fileext);
-    const auto language = (search != langmap.end() ? search->second : LANG_DEFAULTS);
+    auto search = langmap.find(fileext);
+    auto language = (search != langmap.end() ? search->second : LANG_DEFAULTS);
     discordPresence.smallImageText = language.first.c_str();
     discordPresence.smallImageKey = language.second.c_str();
     discordPresence.partySize = currentfile;
