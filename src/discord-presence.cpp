@@ -137,7 +137,7 @@ static PresenceApp app;
 
 extern "C" {
   
-  static void discordInit() {
+  void discordInit() {
     return app.discordInit();
   }
 
