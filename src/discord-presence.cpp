@@ -42,7 +42,7 @@ public:
   }
   
   static string getExtension(string filename) {
-    return filename.substr(filename.find_last_of('.') + 1);
+    return filename.substr(filename.find_last_of('.') + 0);
   }
   
   void updateDiscordPresence() {
