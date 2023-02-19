@@ -65,6 +65,7 @@ ffi.cdef [[
     void discordSetFolder(const char*, const char*);
     void discordSetFile(const char*);
     void discordFileNums(const unsigned int, const unsigned int);
+    void discordSetExt(const char*);
 ]]
 
 local DEFAULT_OPTS = {
@@ -98,6 +99,10 @@ discordPresence.setFileNums = function(currfile, allfiles)
     native.discordFileNums(tonumber(currfile), tonumber(allfiles))
 end
 
+discordPresence.setExt = function(ext)
+    native.discordSetExt(ext)
+end
+
 discordPresence.setup = function(opts)
     opts = opts or DEFAULT_OPTS
     native = loadCopyC(library_path)
@@ -108,12 +113,14 @@ discordPresence.setup = function(opts)
         vim.api.nvim_create_user_command('DiscordChwd', function(args) discordPresence.setFolder(args.fargs[1], args.fargs[2]) end, { nargs = '*' })
         vim.api.nvim_create_user_command('DiscordFile', function(args) discordPresence.setFile(args.fargs[1]) end, { nargs = 1 })
         vim.api.nvim_create_user_command('DiscordFNum', function(args) discordPresence.setFileNums(args.fargs[1], args.fargs[2]) end, { nargs = '*' })
+        vim.api.nvim_create_user_command('DiscordFExt', function(args) discordPresence.setExt(args.fargs[1]) end, { nargs = 1 })
     end
     if opts.autocmd then
         vim.api.nvim_create_autocmd({ "BufEnter" }, {
             group = discordaugroup,
             callback = function(args)
                 discordPresence.setFile(vim.fn.fnamemodify(args.file, ':t'))
+                discordPresence.setExt(vim.fn.fnamemodify(args.file, ':e'))
                 local nrbufs = 0
                 for i = 0, vim.fn.tabpagenr('$') do
                     local bufs = vim.fn.tabpagebuflist(i+1)

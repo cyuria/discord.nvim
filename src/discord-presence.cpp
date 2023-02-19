@@ -42,7 +42,7 @@ public:
   }
   
   static string getExtension(string filename) {
-    return filename.substr(filename.find_last_of('.') + 0);
+    return filename.substr(filename.find_last_of('.') + 1);
   }
   
   void updateDiscordPresence() {
@@ -131,6 +131,10 @@ public:
     currentfile = currfile;
     openfiles = allfiles;
   }
+
+  void setFileExt(const string ext) {
+    fileext = ext;
+  }
   
 };
 
@@ -156,6 +160,10 @@ extern "C" {
   
   void discordSetFile(const char* fname) {
     return app.setFileName(fname);
+  }
+
+  void discordSetExt(const char* ext) {
+    return app.setFileExt(ext);
   }
   
 }
