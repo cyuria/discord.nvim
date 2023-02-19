@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 3.2)
-project(discord-presence LANGUAGES C)
+project(discord-presence LANGUAGES CXX)
 
-add_library(${PROJECT_NAME} SHARED "src/main.c")
+# add_executable(${PROJECT_NAME} "src/main.cpp")
+add_library(${PROJECT_NAME} SHARED "src/main.cpp")
 
 add_library(discord_rpc STATIC IMPORTED GLOBAL)
 set_property(TARGET discord_rpc APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
 set_target_properties(discord_rpc PROPERTIES
-        IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG C
+        IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG CXX
         IMPORTED_LOCATION_DEBUG ${PROJECT_SOURCE_DIR}/src/discord-rpc.lib)
 target_link_libraries(${PROJECT_NAME} PUBLIC discord_rpc)
 
