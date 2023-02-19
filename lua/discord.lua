@@ -7,7 +7,7 @@ local library_path = (function()
     return dirname .. "/build/libdiscord-presence.so"
   end
 end)()
-local native = ffi.load(library_path)
+local native = {}
 
 -- Declare types for my functions
 ffi.cdef [[
@@ -51,6 +51,7 @@ end
 
 discordPresence.setup = function(opts)
     opts = opts or DEFAULT_OPTS
+    native = ffi.load(library_path)
     local discordaugroup = vim.api.nvim_create_augroup("discord", {})
     if opts.usercmd then
         vim.api.nvim_create_user_command('DiscordInit', function(args) discordPresence.init() end, {})
