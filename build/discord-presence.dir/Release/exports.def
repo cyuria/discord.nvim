@@ -1,4 +1,0 @@
-EXPORTS 
-	__local_stdio_printf_options
-	main
-	printf

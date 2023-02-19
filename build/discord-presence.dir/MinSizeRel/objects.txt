@@ -1,1 +1,0 @@
-C:/Users/Wiki/Documents/GitHub/discord.nvim/build/discord-presence.dir/MinSizeRel/main.obj
