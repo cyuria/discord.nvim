@@ -8,7 +8,7 @@ local function CopyFile(old_path, new_path)
     end
     while true do
         local block = old_file:read(2^13)
-        if not block then 
+        if not block then
             old_file_sz = old_file:seek( "end" )
             break
         end
@@ -32,18 +32,28 @@ local library_path = (function()
 end)()
 
 local function loadCopyC(path)
+    -- get the package directory
     local dirname = string.sub(debug.getinfo(1).source, 2, #"/lua/discord.lua" * -1)
+    -- create a new path under ${package_root}/bin/
+    -- this will contain copies of the binary so that the program can still be compiled
+    -- and overwrite the primary /build/ files
     local newpath
     if package.config:sub(1, 1) == "\\" then
         newpath = dirname .. "/bin/libdiscord-presence.dll"
     else
         newpath = dirname .. "/bin/libdiscord-presence.so"
     end
+    -- if ${project_root}/bin isn't a directory, make it
+    if vim.fn.isdirectory(dirname .. "/bin") == 0 then
+        vim.fn.mkdir(dirname .. "/bin", 'p')
+    end
+    -- copy the files
     if CopyFile(path, newpath) then
+        -- return the loaded binary
         return ffi.load(newpath)
     end
-    -- only get here if above didn't return
-    print("Discord: Something went wrong while copying library files")
+    -- only get here if copying failed
+    print("Discord: Something went wrong while copying and/or loading library files")
 end
 
 local native = {}
