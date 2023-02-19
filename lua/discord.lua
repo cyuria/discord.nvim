@@ -1,3 +1,26 @@
+local function CopyFile(old_path, new_path)
+    local io = require'io'
+    local old_file = io.open(old_path, "rb")
+    local new_file = io.open(new_path, "wb")
+    local old_file_sz, new_file_sz = 0, 0
+    if not old_file or not new_file then
+        return false
+    end
+    while true do
+        local block = old_file:read(2^13)
+        if not block then 
+            old_file_sz = old_file:seek( "end" )
+            break
+        end
+        new_file:write(block)
+    end
+    old_file:close()
+    new_file_sz = new_file:seek( "end" )
+    new_file:close()
+    return new_file_sz == old_file_sz
+end
+
+
 local ffi = require'ffi'
 local library_path = (function()
   local dirname = string.sub(debug.getinfo(1).source, 2, #"/lua/discord.lua" * -1)
@@ -7,6 +30,22 @@ local library_path = (function()
     return dirname .. "/build/libdiscord-presence.so"
   end
 end)()
+
+local function loadCopyC(path)
+    local dirname = string.sub(debug.getinfo(1).source, 2, #"/lua/discord.lua" * -1)
+    local newpath
+    if package.config:sub(1, 1) == "\\" then
+        newpath = dirname .. "/bin/libdiscord-presence.dll"
+    else
+        newpath = dirname .. "/bin/libdiscord-presence.so"
+    end
+    if CopyFile(path, newpath) then
+        return ffi.load(newpath)
+    end
+    -- only get here if above didn't return
+    print("Discord: Something went wrong while copying library files")
+end
+
 local native = {}
 
 -- Declare types for my functions
@@ -51,7 +90,7 @@ end
 
 discordPresence.setup = function(opts)
     opts = opts or DEFAULT_OPTS
-    native = ffi.load(library_path)
+    native = loadCopyC(library_path)
     local discordaugroup = vim.api.nvim_create_augroup("discord", {})
     if opts.usercmd then
         vim.api.nvim_create_user_command('DiscordInit', function(args) discordPresence.init() end, {})
