@@ -1,6 +1,6 @@
 local ffi = require'ffi'
 local library_path = (function()
-  local dirname = string.sub(debug.getinfo(1).source, 2, #"/discord.lua" * -1)
+  local dirname = string.sub(debug.getinfo(1).source, 2, #"/lua/discord.lua" * -1)
   if package.config:sub(1, 1) == "\\" then
     return dirname .. "/build/libdiscord-presence.dll"
   else
