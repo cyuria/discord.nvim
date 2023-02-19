@@ -64,23 +64,23 @@ public:
   }
   
   static void handleDiscordReady(const DiscordUser* connectedUser) {
-    cout << "Discord: connected to user "
+    /*cout << "Discord: connected to user "
          << connectedUser->username << '#' << connectedUser->discriminator
          << " - "
          << connectedUser->userId
-         << '\n';
+         << '\n';*/
   }
   
   static void handleDiscordDisconnected(int errcode, const char* message) {
-    cout << "Discord: disconnected ("
+    /*cout << "Discord: disconnected ("
          << errcode << ": "
-         << message << ")\n";
+         << message << ")\n";*/
   }
   
-  static void handleDiscordError(int errcode, const char* message) {
+  static void handleDiscordError(int errcode, const char* message) {/*
     cout << "Discord: error ("
          << errcode << ": "
-         << message << ")\n";
+         << message << ")\n";*/
   }
   
   void discordInit() {
@@ -115,9 +115,10 @@ public:
   }
   
   void setProject(const string pname, const string fname) {
-    projectname = pname;
     filename = fname;
     fileext = getExtension(fname);
+    if (projectname == pname) return;
+    projectname = pname;
     StartTime = time(0);
   }
   
@@ -141,39 +142,20 @@ extern "C" {
     return app.discordInit();
   }
 
-  static void discordShutDown() {
+  void discordShutDown() {
     return app.discordShutDown();
   }
   
-  static void discordSetFolder(const char* pname, const char* fname) {
+  void discordSetFolder(const char* pname, const char* fname) {
     return app.setProject(pname, fname);
   }
   
-  static void discordFileNums(const unsigned int currfile, const unsigned int allfiles) {
+  void discordFileNums(const unsigned int currfile, const unsigned int allfiles) {
     return app.updateFileNums(currfile, allfiles);
   }
   
-  static void discordSetFile(const char* fname) {
+  void discordSetFile(const char* fname) {
     return app.setFileName(fname);
   }
   
-  /*
-  int main(int argc, char* argv[]) {
-    (void) argc; (void) argv;
-    
-    configLangMapping();
-    
-    discordInit();
-    
-    cout << "discord rich presence started\n";
-    
-    while ((char) getchar() != 'q') Sleep(50);
-    
-    cout << "exiting discord rich presence\n";
-    
-    discordShutDown();
-    
-    return 0;
-  }
-  */
 }
