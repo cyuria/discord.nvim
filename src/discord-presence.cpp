@@ -48,7 +48,7 @@ public:
   void updateDiscordPresence() {
     DiscordRichPresence discordPresence;
     memset(&discordPresence, 0, sizeof(discordPresence));
-    discordPresence.state = ("Editing *" + filename + "*").c_str();
+    discordPresence.state = ("Editing " + filename).c_str();
     discordPresence.details = projectname.c_str();
     discordPresence.startTimestamp = StartTime;
     discordPresence.largeImageKey = "neovim";

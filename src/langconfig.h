@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const pair<string, string> LANG_DEFAULTS = make_pair("", "");
+const pair<string, string> LANG_DEFAULTS = make_pair("The Sun", "typescript");
 
 static umap<string, pair<string, string>> langmap;
 
