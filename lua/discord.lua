@@ -11,7 +11,7 @@ local native = ffi.load(library_path)
 
 -- Declare types for my functions
 ffi.cdef [[
-    static void discordInit();
+    void discordInit();
     static void discordShutDown();
     static void discordSetFolder(const char*, const char*);
     static void discordSetFile(const char*);
