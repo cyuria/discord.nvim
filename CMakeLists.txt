@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 project(discord-presence LANGUAGES CXX)
 
-# add_executable(${PROJECT_NAME} "src/main.cpp")
-add_library(${PROJECT_NAME} SHARED "src/main.cpp")
+add_library(${PROJECT_NAME} SHARED "src/discord-presence.cpp")
 
 add_library(discord_rpc STATIC IMPORTED GLOBAL)
 set_property(TARGET discord_rpc APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)

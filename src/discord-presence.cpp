@@ -33,11 +33,6 @@ public:
   std::thread updateThread;
   
   PresenceApp() {
-    string projectname = "";
-    filename = "somefile.cpp";
-    fileext = getExtension(filename);
-    currentfile = 1;
-    openfiles = 6;
     shouldUpdate = false;
     StartTime = time(0);
   }

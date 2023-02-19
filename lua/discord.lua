@@ -9,6 +9,15 @@ local library_path = (function()
 end)()
 local native = ffi.load(library_path)
 
+-- Declare types for my functions
+ffi.cdef [[
+    void discordInit();
+    void discordShutDown();
+    void discordSetFolder(const char*, const char*);
+    void discordSetFile(const char*);
+    void discordSetFileNums(const unsigned int, const unsigned int);
+]]
+
 local DEFAULT_OPTS = {
     usercmd = true,
     autocmd = false,
