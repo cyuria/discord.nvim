@@ -17,7 +17,12 @@
 #include "discord_rpc.h"
 #include "langconfig.h"
 
+
 using namespace std;
+
+
+extern "C" {
+  
 
 class PresenceApp {
   
@@ -135,8 +140,6 @@ public:
 
 static PresenceApp app;
 
-extern "C" {
-  
   void discordInit() {
     return app.discordInit();
   }
