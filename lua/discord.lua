@@ -62,6 +62,7 @@ local native = {}
 ffi.cdef [[
     void discordInit();
     void discordShutDown();
+    void configMappings(const char*);
     void discordSetFolder(const char*, const char*);
     void discordSetFile(const char*);
     void discordFileNums(const unsigned int, const unsigned int);
@@ -105,7 +106,10 @@ end
 
 discordPresence.setup = function(opts)
     opts = opts or DEFAULT_OPTS
+    -- load the C++ package
     native = loadCopyC(library_path)
+    local dirname = string.sub(debug.getinfo(1).source, 2, #"/lua/discord.lua" * -1)
+    native.configMappings(dirname .. "/langmappings.txt")
     local discordaugroup = vim.api.nvim_create_augroup("discord", {})
     if opts.usercmd then
         vim.api.nvim_create_user_command('DiscordInit', function(args) discordPresence.init() end, {})
