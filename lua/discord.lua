@@ -46,19 +46,30 @@ discordPresence.setup = function(opts)
     if opts.usercmd then
         vim.api.nvim_create_user_command('DiscordInit', discordPresence.init, {})
         vim.api.nvim_create_user_command('DiscordStop', discordPresence.stop, {})
-        vim.api.nvim_create_user_command('DiscordChwd', discordPresence.setFolder, { nargs = 2 })
+        vim.api.nvim_create_user_command('DiscordChwd', discordPresence.setFolder, { nargs = '*' })
         vim.api.nvim_create_user_command('DiscordFile', discordPresence.setFile, { nargs = 1 })
-        vim.api.nvim_create_user_command('DiscordFNum', discordPresence.setFileNums, { nargs = 2 })
+        vim.api.nvim_create_user_command('DiscordFNum', discordPresence.setFileNums, { nargs = '*' })
     end
     if opts.autocmd then
         vim.api.nvim_create_autocmd({ "BufEnter" }, {
             group = discordaugroup,
             callback = function(args)
                 discordPresence.setFile(vim.fn.fnamemodify(args.file, ':t'))
-                discordPresence.setFileNums()
+                local nrbufs = 0
+                for i = 0, vim.fn.tabpagenr('$') do
+                    nrbufs = nrbufs + #vim.fn.tabpagebuflist(i+1)
+                end
+                discordPresence.setFileNums(args.buf, nrbufs)
             end
         })
-        -- BufEnter DirChanged
+        vim.api.nvim_create_autocmd({ "DirChanged" }, {
+            group = discordaugroup,
+            callback = function(args)
+                local dirname = vim.fn.fnamemodify(nvim.fn.getcwd(), ':t')
+                local filename = vim.fn.fnamemodify(args.file, ':t')
+                discordPresence.setFolder(dirname, filename)
+            end
+        })
     end
     if opts.initonenter then
         vim.api.nvim_create_autocmd({ "VimEnter" }, {
