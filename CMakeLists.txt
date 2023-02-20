@@ -3,11 +3,8 @@ project(discord-presence LANGUAGES CXX)
 
 add_library(${PROJECT_NAME} SHARED "src/discord-presence.cpp")
 
-add_library(discord_rpc STATIC IMPORTED GLOBAL)
-set_property(TARGET discord_rpc APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
-set_target_properties(discord_rpc PROPERTIES
-        IMPORTED_LINK_INTERFACE_LANGUAGES_DEBUG CXX
-        IMPORTED_LOCATION_DEBUG ${PROJECT_SOURCE_DIR}/src/discord-rpc.lib)
+add_subdirectory("rpclib")
+
 target_link_libraries(${PROJECT_NAME} PUBLIC discord_rpc)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
