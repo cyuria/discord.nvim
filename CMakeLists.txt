@@ -1,7 +1,21 @@
 cmake_minimum_required(VERSION 3.2)
 project(discord-presence LANGUAGES CXX)
 
-set(BUILD_EXAMPLES OFF)
+# stuff which discord rpc apparently breaks without, so I copy pasted it here
+find_file(RAPIDJSONTEST NAMES rapidjson rapidjson-1.1.0 PATHS ${PROJECT_SOURCE_DIR}/rpclib/thirdparty CMAKE_FIND_ROOT_PATH_BOTH)
+if (NOT RAPIDJSONTEST)
+    message("no rapidjson, download")
+    set(RJ_TAR_FILE ${PROJECT_SOURCE_DIR}/rpclib/thirdparty/v1.1.0.tar.gz)
+    file(DOWNLOAD https://github.com/miloyip/rapidjson/archive/v1.1.0.tar.gz ${RJ_TAR_FILE})
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} -E tar xzf ${RJ_TAR_FILE}
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/rpclib/thirdparty
+    )
+    file(REMOVE ${RJ_TAR_FILE})
+endif(NOT RAPIDJSONTEST)
+
+
+set(BUILD_EXAMPLES OFF CACHE BOOL "Build example apps")
 add_subdirectory(rpclib)
 
 add_library(${PROJECT_NAME} SHARED "src/discord-presence.cpp")
