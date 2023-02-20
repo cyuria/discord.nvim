@@ -5,8 +5,7 @@ my own take on the discord rich presence plugin in neovim
 
 ## Features
 
-- ~~It should be cross-platform (only tested on windows 10 currently)~~
-  - It should be when I add the linux and mac libraries for discord rpc
+- It should be cross-platform (only tested on windows 10 currently)
 - It doesn't ruin my neovim config
 - Easy to use and unobtrusive
 - Uses CWD as "project" (And therefore works with plugins like [ahmedkhalf/project.nvim](https://github.com/ahmedkhalf/project.nvim), for example)
