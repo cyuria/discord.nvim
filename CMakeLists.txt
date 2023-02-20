@@ -1,14 +1,16 @@
 cmake_minimum_required(VERSION 3.2)
 project(discord-presence LANGUAGES CXX)
 
+set(BUILD_EXAMPLES OFF)
+add_subdirectory(rpclib)
+
 add_library(${PROJECT_NAME} SHARED "src/discord-presence.cpp")
 
-add_subdirectory("rpclib")
-
-target_link_libraries(${PROJECT_NAME} PUBLIC discord_rpc)
+target_link_libraries(${PROJECT_NAME} PUBLIC discord-rpc)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
-  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>)
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/rpclib/build/include>)
 target_compile_options(${PROJECT_NAME}
   PRIVATE
     $<$<C_COMPILER_ID:MSVC>:/W4>
