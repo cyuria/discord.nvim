@@ -22,6 +22,54 @@ my own take on the discord rich presence plugin in neovim
 It should be basically the same as any other plugin manager, just make sure to run the following command whenever you install or update:
 `cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build`
 
+## Usage
+
+Almost everything is done automagically, but you do need to call `require'discord'.setup()` to add all the autocmds and user commands.
+
+### setup
+
+You need to run `require'discord'.setup()` for the plugin to start doing anything.
+`setup` takes an optional table argument, default initialised with the following values:
+```
+local DEFAULT_OPTS = {
+    usercmd = true, -- setup user commands
+    autocmd = true, -- setup autocommands for updating on file change
+    initonenter = true, -- setup autocommand to start on VimEnter
+    quitonleave = true, -- setup autocommand to stop on VimLeavePre (important for cleanup stuff, just leave on regardless)
+}
+```
+
+### commands
+
+#### Vim
+
+- `:DiscordInit` | Start talking to discord (not called automatically)
+  - No Arguments
+- `:DiscordStop` | Shutdown discord, do this for cleanup, it doesn't break anything if discord hasn't been initialised yet
+  - No Arguments
+- `:DiscordChwd` | Manually change displayed working directory, has no effect on actual working directory
+  - Two arguments, new folder name and new filename
+  - Automatically resets elapsed time
+- `:DiscordFile` | Manually change the displayed file, has no effect on neovim
+  - One argument, new file name
+- `:DiscordFNum` | Manually change the "number of files" value shown in discord "(x of y)"
+  - Two arguments, current file number and total number of files
+- `:DiscordFExt` | Manually change the file extension displayed by discord
+  - One argument, new file extension
+
+#### Lua
+
+Assumes `local discordPresence = require'discord'` present
+
+- `discordPresence.setup()` | Setup plugin
+- `discordPresence.init()` | Start talking to discord
+- `discordPresence.stop()` | Stop talking to discord (also performs cleanup)
+- `discordPresence.setFolder(folder, filename)` | Set a new folder and filename to be displayed
+  - Automatically resets elapsed time
+- `discordPresence.setFile(filename)` | Set the file to be displayed
+- `discordPresence.setFileNums(currentfile, totalfilenum)` | Set the "number of files" value shown in discord "(currentfile of totalfilenum)"
+- `discordPresence.setExt(fileext)` | Set the file extension to be used
+
 ## Why I Made It
 
 I was using [andweeb/presence.nvim](https://github.com/andweeb/presence.nvim) for this exact purpose, but it had a weird
@@ -37,3 +85,6 @@ I also copied some other parts of the code from there.
 
 I was previously using [andweeb/presence.nvim](https://github.com/andweeb/presence.nvim) and took inspiration as well as the
 list of file extension to language mapping data from there.
+
+A large chunk of the code comes from [discord-rpc](https://github.com/discord/discord-rpc), which is now deprecated, but
+still works fine and I don't want to learn or use the entire discord SDK for this.
