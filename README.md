@@ -35,7 +35,7 @@ local DEFAULT_OPTS = {
     usercmd = true, -- setup user commands
     autocmd = true, -- setup autocommands for updating on file change
     initonenter = true, -- setup autocommand to start on VimEnter
-    quitonleave = true, -- setup autocommand to stop on VimLeavePre (important for cleanup stuff, just leave on regardless)
+    quitonleave = true, -- setup autocommand to stop on VimLeavePre (important for cleanup stuff, just leave as true regardless)
 }
 ```
 
