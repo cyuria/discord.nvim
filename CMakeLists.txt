@@ -24,7 +24,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC discord-rpc)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
   $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>
-  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/rpclib/build/include>)
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/rpclib/include>)
 target_compile_options(${PROJECT_NAME}
   PRIVATE
     $<$<C_COMPILER_ID:MSVC>:/W4>
