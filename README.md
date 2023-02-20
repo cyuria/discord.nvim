@@ -8,7 +8,7 @@ my own take on the discord rich presence plugin in neovim
 - should be cross-platform
 - It doesn't ruin my neovim config
 - Easy to use and unobtrusive
-- Uses CWD as "project" (And therefore works with [ahmedkhalf/project.nvim](https://github.com/ahmedkhalf/project.nvim))
+- Uses CWD as "project" (And therefore works with [ahmedkhalf/project.nvim](https://github.com/ahmedkhalf/project.nvim), for example)
 - Only requires cmake and a C++ compiler, no neovim plugin dependencies
 
 ## Installation
