@@ -1,6 +1,8 @@
 # discord.nvim
 my own take on the discord rich presence plugin in neovim
 
+![](https://user-images.githubusercontent.com/55673467/219996206-c5a488d9-cf27-4d0f-aa0b-5cbb74a278d7.gif)
+
 ## Features
 
 - should be cross-platform
