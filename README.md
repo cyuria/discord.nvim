@@ -5,7 +5,8 @@ my own take on the discord rich presence plugin in neovim
 
 ## Features
 
-- It should be cross-platform (only tested on windows 10 currently)
+- ~~It should be cross-platform (only tested on windows 10 currently)~~
+  - It should be when I add the linux and mac libraries for discord rpc
 - It doesn't ruin my neovim config
 - Easy to use and unobtrusive
 - Uses CWD as "project" (And therefore works with plugins like [ahmedkhalf/project.nvim](https://github.com/ahmedkhalf/project.nvim), for example)
@@ -15,12 +16,16 @@ my own take on the discord rich presence plugin in neovim
 
 ### Vim-Plug
 
-`Plug 'Cyuria/discord.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }`
+```vim
+Plug 'Cyuria/discord.nvim', { 'do': 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+```
 
 ### Other
 
 It should be basically the same as any other plugin manager, just make sure to run the following command whenever you install or update:
-`cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build`
+```shell
+cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build
+```
 
 ## Usage
 
@@ -30,7 +35,7 @@ Almost everything is done automagically, but you do need to call `require'discor
 
 You need to run `require'discord'.setup()` for the plugin to start doing anything.
 `setup` takes an optional table argument, default initialised with the following values:
-```
+```lua
 local DEFAULT_OPTS = {
     usercmd = true, -- setup user commands
     autocmd = true, -- setup autocommands for updating on file change
@@ -63,7 +68,7 @@ Won't work if discord is started after neovim, start discord and then reload neo
 
 #### Lua
 
-Assumes `local discordPresence = require'discord'` present
+Assumes ```local discordPresence = require'discord'``` present
 
 - `discordPresence.setup()` | Setup plugin
 - `discordPresence.init()` | Start talking to discord
