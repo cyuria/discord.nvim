@@ -39,6 +39,10 @@ local DEFAULT_OPTS = {
 }
 ```
 
+### Caveat
+
+Won't work if discord is started after neovim, start discord and then reload neovim
+
 ### commands
 
 #### Vim
