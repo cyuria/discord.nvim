@@ -1,20 +1,15 @@
 #ifdef _WIN32
-#include <windows.h>
+  #include <windows.h>
 #else
-#include <unistd.h>
+  #include <unistd.h>
 #endif
 
-#include <cstdint>
-#include <cstdio>
-#include <cstdlib>
 #include <ctime>
 
 #include <fstream>
-#include <iostream>
 #include <thread>
 #include <string>
 #include <unordered_map>
-#define umap unordered_map
 #include <utility>
 
 #include "discord_rpc.h"
@@ -29,11 +24,11 @@ public:
   
   const char* APPLICATION_ID = "1076552220939665520";
   
-  umap<string, pair<string, string>> langmap;
+  unordered_map<string, pair<string, string>> langmap;
   
   string projectname, filename, fileext;
   unsigned int currentfile, openfiles;
-  int64_t StartTime;
+  long int StartTime;
   bool shouldUpdate;
   int initlangmapsize;
   
@@ -85,23 +80,29 @@ public:
   }
   
   static void handleDiscordReady(const DiscordUser* connectedUser) {
+    /*
     cout << "Discord: connected to user "
          << connectedUser->username << '#' << connectedUser->discriminator
          << " - "
          << connectedUser->userId
          << '\n';
+    */
   }
   
   static void handleDiscordDisconnected(int errcode, const char* message) {
+    /*
     cout << "Discord: disconnected ("
          << errcode << ": "
          << message << ")\n";
+    */
   }
   
   static void handleDiscordError(int errcode, const char* message) {
+    /*
     cout << "Discord: error ("
          << errcode << ": "
          << message << ")\n";
+    */
   }
   
   void discordInit() {
