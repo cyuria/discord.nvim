@@ -1,5 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS /* thanks Microsoft */
-
 #ifdef _WIN32
 #include <windows.h>
 #else
@@ -11,13 +9,19 @@
 #include <cstdlib>
 #include <ctime>
 
+#include <fstream>
 #include <iostream>
 #include <thread>
+#include <string>
+#include <unordered_map>
+#define umap unordered_map
+#include <utility>
 
 #include "discord_rpc.h"
-#include "langconfig.h"
 
 using namespace std;
+
+const pair<string, string> LANG_DEFAULTS = make_pair("", "");
 
 class PresenceApp {
   
@@ -25,10 +29,13 @@ public:
   
   const char* APPLICATION_ID = "1076552220939665520";
   
+  umap<string, pair<string, string>> langmap;
+  
   string projectname, filename, fileext;
   unsigned int currentfile, openfiles;
   int64_t StartTime;
   bool shouldUpdate;
+  int initlangmapsize;
   
   std::thread updateThread;
   
@@ -41,46 +48,60 @@ public:
     Discord_Shutdown();
   }
   
+  void configLangMapping(const string fname) {
+    ifstream f;
+    f.open(fname);
+    if (!f.is_open()) return;
+    string line;
+    initlangmapsize = 0;
+    while (getline(f, line)) {
+      const auto fext = line.find_last_of('=');
+      const auto imgsep = line.substr(fext + 1).find_last_of('|');
+      langmap[line.substr(0, fext)] = make_pair(line.substr(fext + 1, imgsep), line.substr(fext + imgsep + 2));
+      initlangmapsize++;
+    }
+  }
+  
   static string getExtension(string filename) {
     return filename.substr(filename.find_last_of('.') + 1);
   }
   
   void updateDiscordPresence() {
+    const auto search = langmap.find(fileext);
+    const auto language = (search != langmap.end() ? search->second : LANG_DEFAULTS);
     DiscordRichPresence discordPresence;
     memset(&discordPresence, 0, sizeof(discordPresence));
-    discordPresence.state = ("Editing *" + filename + "*").c_str();
     discordPresence.details = projectname.c_str();
+    discordPresence.state = ("Editing " + filename + " (" + language.first + ")").c_str();
     discordPresence.startTimestamp = StartTime;
     discordPresence.largeImageKey = "neovim";
     discordPresence.largeImageText = "The One True Text Editor";
-    const auto search = langmap.find(fileext);
-    const auto language = (search != langmap.end() ? search->second : LANG_DEFAULTS);
     discordPresence.smallImageText = language.first.c_str();
     discordPresence.smallImageKey = language.second.c_str();
-    discordPresence.partySize = currentfile;
-    discordPresence.partyMax = openfiles;
+    discordPresence.partySize = (int) currentfile;
+    discordPresence.partyMax = (int) openfiles;
     discordPresence.instance = 0;
     Discord_UpdatePresence(&discordPresence);
   }
   
   static void handleDiscordReady(const DiscordUser* connectedUser) {
-    /*cout << "Discord: connected to user "
+    cout << "Discord: connected to user "
          << connectedUser->username << '#' << connectedUser->discriminator
          << " - "
          << connectedUser->userId
-         << '\n';*/
+         << '\n';
   }
   
   static void handleDiscordDisconnected(int errcode, const char* message) {
-    /*cout << "Discord: disconnected ("
+    cout << "Discord: disconnected ("
          << errcode << ": "
-         << message << ")\n";*/
+         << message << ")\n";
   }
   
-  static void handleDiscordError(int errcode, const char* message) {/*
+  static void handleDiscordError(int errcode, const char* message) {
     cout << "Discord: error ("
          << errcode << ": "
-         << message << ")\n";*/
+         << message << ")\n";
   }
   
   void discordInit() {
@@ -93,7 +114,7 @@ public:
     shouldUpdate = true;
     updateThread = thread([this]() {
       while (this->shouldUpdate) {
-        Sleep(333);
+        Sleep(500);
         this->update();
         this->updateDiscordPresence();
       }
@@ -131,17 +152,25 @@ public:
     currentfile = currfile;
     openfiles = allfiles;
   }
+
+  void setFileExt(const string ext) {
+    fileext = ext;
+  }
   
 };
 
-static PresenceApp app;
+PresenceApp app;
 
 extern "C" {
-
+  
   void discordInit() {
     return app.discordInit();
   }
-
+  
+  void configMappings(const char* fname) {
+    app.configLangMapping(fname);
+  }
+  
   void discordShutDown() {
     return app.discordShutDown();
   }
@@ -156,6 +185,10 @@ extern "C" {
   
   void discordSetFile(const char* fname) {
     return app.setFileName(fname);
+  }
+
+  void discordSetExt(const char* ext) {
+    return app.setFileExt(ext);
   }
   
 }
