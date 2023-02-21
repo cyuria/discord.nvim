@@ -4,6 +4,7 @@
   #include <unistd.h>
 #endif
 
+#include <cstring>
 #include <ctime>
 
 #include <fstream>
@@ -115,7 +116,7 @@ public:
     shouldUpdate = true;
     updateThread = thread([this]() {
       while (this->shouldUpdate) {
-        Sleep(500);
+        sleep(500);
         this->update();
         this->updateDiscordPresence();
       }
