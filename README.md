@@ -5,8 +5,7 @@ my own take on the discord rich presence plugin in neovim
 
 ## Features
 
-- ~~It should be cross-platform (only tested on windows 10 currently)~~
-  - It should be when I add the linux and mac libraries for discord rpc
+- It should be cross-platform (only tested on windows 10 currently)
 - It doesn't ruin my neovim config
 - Easy to use and unobtrusive
 - Uses CWD as "project" (And therefore works with plugins like [ahmedkhalf/project.nvim](https://github.com/ahmedkhalf/project.nvim), for example)
@@ -31,7 +30,7 @@ cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Rel
 
 Almost everything is done automagically, but you do need to call `require'discord'.setup()` to add all the autocmds and user commands.
 
-### setup
+### Setup
 
 You need to run `require'discord'.setup()` for the plugin to start doing anything.
 `setup` takes an optional table argument, default initialised with the following values:
@@ -48,7 +47,7 @@ local DEFAULT_OPTS = {
 
 Won't work if discord is started after neovim, start discord and then reload neovim
 
-### commands
+### Commands
 
 #### Vim
 
