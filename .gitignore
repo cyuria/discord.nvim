@@ -1,4 +1,6 @@
 # Build directory
 
 build/
+bin/
 compile.ps1
+

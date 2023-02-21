@@ -2,8 +2,10 @@
   #include <windows.h>
 #else
   #include <unistd.h>
+  #define Sleep(ms) sleep(ms)
 #endif
 
+#include <cstring>
 #include <ctime>
 
 #include <fstream>
