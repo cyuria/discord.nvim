@@ -20,6 +20,7 @@ add_subdirectory(rpclib)
 
 add_library(${PROJECT_NAME} SHARED "src/discord-presence.cpp")
 
+target_compile_options(discord-rpc PRIVATE $<$<NOT:$<C_COMPILER_ID:MSVC>>:-fPIC>)
 target_link_libraries(${PROJECT_NAME} PUBLIC discord-rpc)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
