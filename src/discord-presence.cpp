@@ -1,5 +1,6 @@
 #ifdef _WIN32
   #include <windows.h>
+  #define sleep Sleep // Really Microsoft?
 #else
   #include <unistd.h>
 #endif
