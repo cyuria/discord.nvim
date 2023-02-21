@@ -30,7 +30,7 @@ cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Rel
 
 Almost everything is done automagically, but you do need to call `require'discord'.setup()` to add all the autocmds and user commands.
 
-### setup
+### Setup
 
 You need to run `require'discord'.setup()` for the plugin to start doing anything.
 `setup` takes an optional table argument, default initialised with the following values:
@@ -47,7 +47,7 @@ local DEFAULT_OPTS = {
 
 Won't work if discord is started after neovim, start discord and then reload neovim
 
-### commands
+### Commands
 
 #### Vim
 
