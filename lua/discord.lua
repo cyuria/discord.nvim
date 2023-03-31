@@ -107,10 +107,8 @@ end
 discordPresence.setup = function(opts)
     opts = opts or DEFAULT_OPTS
     -- load the C++ package
-    if not pcall(
-        function()
-            native = loadCopyC(library_path)
-        end) then
+    native = loadCopyC(library_path)
+    if native == nil then
         print("Discord.nvim Failed to start because the C++ library could not be copied or is in use")
         return
     end
