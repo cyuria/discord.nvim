@@ -107,7 +107,13 @@ end
 discordPresence.setup = function(opts)
     opts = opts or DEFAULT_OPTS
     -- load the C++ package
-    native = loadCopyC(library_path)
+    if not pcall(
+        function()
+            native = loadCopyC(library_path)
+        end) then
+        print("Discord.nvim Failed to start because the C++ library could not be copied or is in use")
+        return
+    end
     local dirname = string.sub(debug.getinfo(1).source, 2, #"/lua/discord.lua" * -1)
     native.configMappings(dirname .. "/langmappings.txt")
     local discordaugroup = vim.api.nvim_create_augroup("discord", {})
