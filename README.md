@@ -43,9 +43,16 @@ local DEFAULT_OPTS = {
 }
 ```
 
-### Caveat
+### Caveats
 
 Won't work if discord is started after neovim, start discord and then reload neovim
+
+The plugin also won't work if it is already running, it will give you the following error:
+```
+Discord: Something went wrong while copying and/or loading library files
+Discord.nvim Failed to start because the C++ library could not be copied or is in use
+```
+Just ignore it if this happens
 
 ### Commands
 
